@@ -15,4 +15,15 @@
         list-style-type: none;
         margin: 20px;
     }
+
+    &__filtered {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__button {
+        padding: 10px;
+        font-size: 16px;
+        flex-grow: 1;
+    }
 }
