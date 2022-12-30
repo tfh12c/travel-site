@@ -8,7 +8,7 @@ function TripList() {
     // const [trips, setTrips] = useState([]);
     const [url, setUrl] = useState('http://localhost:3000/trips');
 
-    const { data: trips } = useFetch(url);
+    const { data: trips, isLoading } = useFetch(url);
 
     console.log(trips);
 
@@ -36,6 +36,7 @@ function TripList() {
     return (
         <div className="trip-list">
             <h2>Trip List</h2>
+            {isLoading && <p>Loading...</p>}
             <ul className="trip-list__list">
                 {trips && trips.map(trip => (
                     <li key={trip.id} className="trip-list__items ">
