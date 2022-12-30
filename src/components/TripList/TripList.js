@@ -12,11 +12,11 @@ function TripList() {
 
     console.log(trips);
 
-    {/* When using functions inside of useEffect, each time the page or component renders, useEffect will reference the function and notice differences and keep refiring and refiring 
+    /* When using functions inside of useEffect, each time the page or component renders, useEffect will reference the function and notice differences and keep refiring and refiring 
     causeing an endless loop. To get around that, you need to use useCallback hook. The hook creates a cached version of a function. On every evaluation of the component,
     the cached function is not being recreated. Therefore, not being seen as changed by useEffect, and wont refire.
 
-    The useCallback hook also has a dependency array as a second argument. This depend. array will tell the callback hook when to create a new function */}
+    The useCallback hook also has a dependency array as a second argument. This depend. array will tell the callback hook when to create a new function */
     // const fetchTrips = useCallback(async () => {
     //     const response = await fetch(url);
     //     const json = await response.json();
