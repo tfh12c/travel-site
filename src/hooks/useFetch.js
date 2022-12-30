@@ -6,6 +6,9 @@ const useFetch = (url) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        //need controller var for cleanup function
+        const controller = new AbortController();
+
         const fetchData = async () => {
             setIsLoading(true);
 
@@ -16,7 +19,7 @@ const useFetch = (url) => {
             {/* Erro Handling:
             we have the try block and use the if check to see if the response is ok. If it's not, we throw an error right away and move into the catch block */}
             try {
-                const response = await fetch(url);
+                const response = await fetch(url, { signal: controller.signal });
                 if (!response.ok) {
                     throw new Error(response.statusText)
                 }
@@ -26,12 +29,22 @@ const useFetch = (url) => {
                 setData(json);
                 setError(null);
             } catch (error) {
-                setIsLoading(true);
-                setError('Could not fetch data.');
-                console.log(error.message);
+                //AbortError will come from controller/abort
+                if (error.name === "AbortError") {
+                    console.log('Fetch was aborted');
+                } else {
+                    setIsLoading(true);
+                    setError('Could not fetch data.');
+                }
             }
         }
         fetchData();
+
+        //cleanup function uses the controller and AbortError. 
+        return () => {
+            controller.abort();
+        }
+        //When using useEffect to do async code, it's best practice to include a cleanup function incase the component unmounts and we dont try to update state when the component has left the DOM
     }, [url])
 
     return { data, isLoading, error }
